@@ -3,8 +3,8 @@
 //Game container variables
 
 var $game = $("#game-box");
-var gameEdgeX = parseInt($game.css("width"));
-var gameEdgeY = parseInt($game.css("height"));
+var gameEdgeX;
+var gameEdgeY;
 
 
 //Ball variables
@@ -22,6 +22,9 @@ var ballProp = {
 //Move function
 
 function moveObject(objectProp,object){
+	
+	gameEdgeX = parseInt($game.css("width"));
+	gameEdgeY = parseInt($game.css("height"));
 	
 	objectProp.velocity.x += objectProp.acceleration.x;
 	objectProp.velocity.y += objectProp.acceleration.y;
