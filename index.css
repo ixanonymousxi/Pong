@@ -15,14 +15,16 @@
 #game-box{
 	border: solid 10px black;
 	width:65%;
+	max-width:950px;
 	height:80%;
 	margin:auto;
 	position:relative;
+	overflow:hidden;
 	}
 	
 .paddle{
 	height:14%;
-	width:1%;
+	width:9px;
 	background-color:black;
 	position:absolute;
 	}
