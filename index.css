@@ -13,7 +13,7 @@
 	}
 	
 #game-box{
-	border: solid 10px black;
+	outline: solid 10px black;
 	width:65%;
 	max-width:950px;
 	height:80%;
@@ -31,12 +31,12 @@
 	
 #pRight{
 	left:97%;
-	top:10px;
+	top:40%;
 	}
 	
 #pLeft{
 	left:2%;
-	top:10px;
+	top:40%;
 	}
 	
 #ball{
