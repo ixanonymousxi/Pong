@@ -18,6 +18,13 @@ $debugP4.appendTo("#debug");
 var $debugP5 = $("<p>");
 $debugP5.appendTo("#debug");
 
+var $debugP6 = $("<p>");
+$debugP6.appendTo("#debug");
+
+var $debugP7 = $("<p>");
+$debugP7.appendTo("#debug");
+
+
 //Game variables
 
 var $game = $("#game-box");
@@ -32,7 +39,7 @@ var timer;
 //Ball variables
 
 var $ball = $("#ball");
-var ballEdge = parseInt($ball.css("height"));;
+var ballEdge = parseInt($ball.css("height"));
 var ballStartX = parseInt($ball.css("left"));
 var ballStartY = parseInt($ball.css("top"));
 
@@ -143,12 +150,12 @@ function moveObject(objectProp,object){
 			
 			if(ballProp.position.y + ballEdge <= objectProp.position.y + paddleEdgeY && 
 			   ballProp.velocity.y < 0 && objectProp.position.y > 0){
-				objectProp.acceleration.y -= 1;
+				objectProp.acceleration.y -= 0.2;
 				}
 				
 			if(ballProp.position.y >= objectProp.position.y  && 
 			   ballProp.velocity.y > 0 && objectProp.position.y < gameEdgeY - paddleEdgeY ){
-				objectProp.acceleration.y += 1;
+				objectProp.acceleration.y += 0.2;
 				}
 			}
 			
@@ -215,7 +222,7 @@ function moveObject(objectProp,object){
 		
 		//Left paddle
 		
-		if((objectProp.position.x === paddleLProp.position.x + paddleEdgeX) &&
+		if((objectProp.position.x <= paddleLProp.position.x + paddleEdgeX) &&
 		   (objectProp.position.y + ballEdge - 10 >= paddleLProp.position.y && 
 		    objectProp.position.y <= paddleLProp.position.y + paddleEdgeY - 10)){
 				objectProp.velocity.x *= -1;
@@ -223,7 +230,8 @@ function moveObject(objectProp,object){
 		
 		//Right paddle
 				
-		if((objectProp.position.x + ballEdge === paddleRProp.position.x) &&
+		if((objectProp.position.x + ballEdge >= paddleRProp.position.x &&
+		    objectProp.position.x + ballEdge <= paddleRProp.position.x + 5) &&
 		   (objectProp.position.y + ballEdge - 10 >= paddleRProp.position.y && 
 		    objectProp.position.y <= paddleRProp.position.y + paddleEdgeY - 10)){
 				objectProp.velocity.x *= -1;
@@ -248,7 +256,6 @@ function game(){
 	$debugP1.text( "ball x: " + $ball.css("left") + " " + " ball y: " + $ball.css("top"));
 	$debugP2.text( "paddle x: " + parseInt($paddleL.css("left")) + " " + " paddle y: " + $paddleL.css("top"));
 	$debugP3.text("box right: " + gameEdgeX + " " + "box bottom: " + gameEdgeY);
-	$debugP4.text("paddle height: " + paddleEdgeY + " " + "paddle width: " + paddleEdgeX);
 	
 	if(runAnimation){
 	requestAnimationFrame(game);
