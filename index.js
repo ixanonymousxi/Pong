@@ -35,6 +35,30 @@ var gameStart = false;
 var frames = 0;
 var timer;
 
+var scoreHTracker = 0;
+var $scoreH = $("<p>");
+$scoreH.addClass("scores");
+$scoreH.css("left", "22%");
+$scoreH.text(scoreHTracker);
+$scoreH.appendTo($game);
+
+var scoreCTracker = 0;
+var $scoreC = $("<p>");
+$scoreC.addClass("scores");
+$scoreC.css("left", "72%");
+$scoreC.text(scoreCTracker);
+$scoreC.appendTo($game);
+
+var $winLose = $("<p>");
+$winLose.addClass("winLose");
+$winLose.appendTo($game);
+
+var $playAgain = $("<button>");
+$playAgain.appendTo($game);
+$playAgain.addClass("playAgain");
+$playAgain.text("Play Again?");
+$playAgain.hide();
+
 
 //Ball variables
 
@@ -83,6 +107,12 @@ function reset(){
 	ballProp.velocity.y = 0;
 	paddleLProp.position.y = paddleLStartY;
 	paddleRProp.position.y = paddleRStartY;
+	
+	if(scoreHTracker >= 3 || scoreCTracker >= 3){
+		scoreHTracker = 0;
+		scoreCTracker = 0;
+	}
+	
 	runAnimation = true;
 	}
 
@@ -195,8 +225,32 @@ function moveObject(objectProp,object){
 	
 	if (objectProp.position.x > gameEdgeX - ((objectProp === ballProp) ? ballEdge : paddleEdgeY) || objectProp.position.x < 0){
 		if(objectProp === ballProp){
+			
 			runAnimation = false;
-			reset();
+			
+			if(objectProp.velocity.x > 0){
+				scoreHTracker++;
+				$scoreH.text(scoreHTracker);
+				if(scoreHTracker >= 3){
+					$winLose.text("You Win!");
+					$playAgain.show();
+					$playAgain.click(reset());
+					}
+				}
+				
+			if(objectProp.velocity.x < 0){
+				scoreCTracker++;
+				$scoreC.text(scoreCTracker);
+				if(scoreCTracker >= 3){
+					$winLose.text("You Lose!");
+					$playAgain.show();
+					$playAgain.click(reset());
+					}
+				}
+				
+			if(scoreHTracker < 3 && scoreCTracker < 3){
+				reset();
+			}
 		}
 		else{
 			objectProp.velocity.x *= -1;
