@@ -59,6 +59,12 @@ $playAgain.text("Play Again?");
 $playAgain.appendTo($game);
 $playAgain.hide();
 
+//Variables determining starting direction of the ball
+
+var randomNumX = Math.floor(Math.random() * 2);
+var randomNumY = Math.floor(Math.random() * 2);
+var startDirX = randomNumX === 0 ? 1 : -1;
+var startDirY = randomNumY === 0 ? 1 : -1;
 
 //Ball variables
 
@@ -66,6 +72,7 @@ var $ball = $("#ball");
 var ballEdge = parseInt($ball.css("height"));
 var ballStartX = parseInt($ball.css("left"));
 var ballStartY = parseInt($ball.css("top"));
+var ballSpeed = (parseInt($game.css("width")) < 845) ? 3 : 4;
 
 var ballProp = {
 	position: {x:parseInt($ball.css("left")), y:parseInt($ball.css("top"))},
@@ -82,6 +89,7 @@ var paddleEdgeY;
 var paddleEdgeX;
 var paddleLStartY = parseInt($paddleL.css("top"));
 var paddleRStartY = parseInt($paddleR.css("top"));
+var paddleRAccel = (parseInt($game.css("width")) < 845) ? 0.2 : 0.4;
 
 var paddleLProp = {
 	position: {x:parseInt($paddleL.css("left")), y:parseInt($paddleL.css("top"))},
@@ -108,6 +116,12 @@ function reset(){
 	paddleLProp.position.y = paddleLStartY;
 	paddleRProp.position.y = paddleRStartY;
 	
+	randomNumX = Math.floor(Math.random() * 2);
+	randomNumY = Math.floor(Math.random() * 2);
+	startDirX = randomNumX === 0 ? 1 : -1;
+	startDirY = randomNumY === 0 ? 1 : -1;
+
+	
 	if(scoreHTracker >= 3 || scoreCTracker >= 3){
 		scoreHTracker = 0;
 		scoreCTracker = 0;
@@ -118,6 +132,7 @@ function reset(){
 	runAnimation = true;
 	}
 
+
 	
 //Left paddle movement checking for event listener
 	
@@ -126,8 +141,8 @@ $(document).on("keydown",function(e){
 			//Up arrow pressed
 			case 38:
 				if (!gameStart){
-					ballProp.velocity.x = 3;
-					ballProp.velocity.y = 3;
+					ballProp.velocity.x = ballSpeed * startDirX;
+					ballProp.velocity.y = ballSpeed * startDirY;
 					gameStart = true;
 					}
 				if (paddleLProp.position.y > 0){
@@ -138,8 +153,8 @@ $(document).on("keydown",function(e){
 			//Down arrow pressed
 			case 40:
 				if (!gameStart){
-					ballProp.velocity.x = 3;
-					ballProp.velocity.y = 3;
+					ballProp.velocity.x = ballSpeed * startDirX;
+					ballProp.velocity.y = ballSpeed * startDirY;
 					gameStart = true;
 					}
 				if (paddleLProp.position.y < gameEdgeY - paddleEdgeY){
@@ -150,8 +165,8 @@ $(document).on("keydown",function(e){
 			//Space bar pressed
 			case 32:
 				if (!gameStart){
-					ballProp.velocity.x = 3;
-					ballProp.velocity.y = 3;
+					ballProp.velocity.x = ballSpeed * startDirX;
+					ballProp.velocity.y = ballSpeed * startDirY;
 					gameStart = true;
 					}
 			break;
@@ -182,12 +197,12 @@ function moveObject(objectProp,object){
 			
 			if(ballProp.position.y + ballEdge <= objectProp.position.y + paddleEdgeY && 
 			   ballProp.velocity.y < 0 && objectProp.position.y > 0){
-				objectProp.acceleration.y -= 0.2;
+				objectProp.acceleration.y -= paddleRAccel;
 				}
 				
 			if(ballProp.position.y >= objectProp.position.y  && 
 			   ballProp.velocity.y > 0 && objectProp.position.y < gameEdgeY - paddleEdgeY ){
-				objectProp.acceleration.y += 0.2;
+				objectProp.acceleration.y += paddleRAccel;
 				}
 			}
 			
@@ -322,6 +337,11 @@ function game(){
 	moveObject(paddleLProp, $paddleL);
 	moveObject(paddleRProp, $paddleR);
 	}
+	
+	$debugP1.text(ballSpeed);
+	$debugP2.text(paddleRAccel);
+	$debugP3.text(startDirX);
+	$debugP4.text(startDirY);
 
 	requestAnimationFrame(game);
 
