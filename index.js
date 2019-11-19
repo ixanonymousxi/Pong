@@ -54,9 +54,9 @@ $winLose.addClass("winLose");
 $winLose.appendTo($game);
 
 var $playAgain = $("<button>");
-$playAgain.appendTo($game);
 $playAgain.addClass("playAgain");
 $playAgain.text("Play Again?");
+$playAgain.appendTo($game);
 $playAgain.hide();
 
 
@@ -111,6 +111,8 @@ function reset(){
 	if(scoreHTracker >= 3 || scoreCTracker >= 3){
 		scoreHTracker = 0;
 		scoreCTracker = 0;
+		$scoreH.text(scoreHTracker);
+		$scoreC.text(scoreCTracker);
 	}
 	
 	runAnimation = true;
@@ -223,8 +225,7 @@ function moveObject(objectProp,object){
 	
 	//Check Edges
 	
-	if (objectProp.position.x > gameEdgeX - ((objectProp === ballProp) ? ballEdge : paddleEdgeY) || objectProp.position.x < 0){
-		if(objectProp === ballProp){
+	if (objectProp.position.x > gameEdgeX - ballEdge || objectProp.position.x < 0){
 			
 			runAnimation = false;
 			
@@ -233,8 +234,13 @@ function moveObject(objectProp,object){
 				$scoreH.text(scoreHTracker);
 				if(scoreHTracker >= 3){
 					$winLose.text("You Win!");
+					$winLose.show();
 					$playAgain.show();
-					$playAgain.click(reset());
+					$playAgain.click(function(){
+						$winLose.hide(); 
+						$playAgain.hide(); 
+						reset();
+						});	
 					}
 				}
 				
@@ -243,18 +249,26 @@ function moveObject(objectProp,object){
 				$scoreC.text(scoreCTracker);
 				if(scoreCTracker >= 3){
 					$winLose.text("You Lose!");
+					$winLose.show();
 					$playAgain.show();
-					$playAgain.click(reset());
+					$playAgain.click(function(){
+						$winLose.hide(); 
+						$playAgain.hide(); 
+						reset();
+						});	
+					//$playAgain.click(reset);
+					//$playAgain.on("click", function(){$winLose.text("CLicked!"); reset();});
+					//$playAgain.on("click", reset);
+					//$(document).on("click", ".playAgain", reset);
+					//$(document).ready(function(){$(document).on("click", ".playAgain", function(){reset();});});
+					//$("body").on("click", ".playAgain", function(){reset();});
+					//$(document).ready(function(){$("body").on("click", ".playAgain", function(){reset();});});
 					}
 				}
 				
 			if(scoreHTracker < 3 && scoreCTracker < 3){
 				reset();
 			}
-		}
-		else{
-			objectProp.velocity.x *= -1;
-		}
 	}
 	
 	if (objectProp.position.y < 0){
@@ -303,17 +317,13 @@ function moveObject(objectProp,object){
 
 function game(){
 	
+	if(runAnimation){
 	moveObject(ballProp, $ball);
 	moveObject(paddleLProp, $paddleL);
 	moveObject(paddleRProp, $paddleR);
-	
-	$debugP1.text( "ball x: " + $ball.css("left") + " " + " ball y: " + $ball.css("top"));
-	$debugP2.text( "paddle x: " + parseInt($paddleL.css("left")) + " " + " paddle y: " + $paddleL.css("top"));
-	$debugP3.text("box right: " + gameEdgeX + " " + "box bottom: " + gameEdgeY);
-	
-	if(runAnimation){
-	requestAnimationFrame(game);
 	}
+
+	requestAnimationFrame(game);
 
 }
 
