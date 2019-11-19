@@ -96,3 +96,14 @@
 	color:black;
 	border: 2px solid black;
 	}
+	
+	
+	
+@media (max-width: 1410px){
+	
+	.winLose{
+		width:40%;
+		left: 31%;
+	}
+	
+	}
