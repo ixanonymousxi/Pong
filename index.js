@@ -1,30 +1,6 @@
 // JavaScript Document
 
 
-//DeBug variables
-
-var $debugP1 = $("<p>");
-$debugP1.appendTo("#debug");
-
-var $debugP2 = $("<p>");
-$debugP2.appendTo("#debug");
-
-var $debugP3 = $("<p>");
-$debugP3.appendTo("#debug");
-
-var $debugP4 = $("<p>");
-$debugP4.appendTo("#debug");
-
-var $debugP5 = $("<p>");
-$debugP5.appendTo("#debug");
-
-var $debugP6 = $("<p>");
-$debugP6.appendTo("#debug");
-
-var $debugP7 = $("<p>");
-$debugP7.appendTo("#debug");
-
-
 //Game variables
 
 var $game = $("#game-box");
@@ -338,11 +314,6 @@ function game(){
 	moveObject(paddleRProp, $paddleR);
 	}
 	
-	$debugP1.text(ballSpeed);
-	$debugP2.text(paddleRAccel);
-	$debugP3.text(startDirX);
-	$debugP4.text(startDirY);
-
 	requestAnimationFrame(game);
 
 }
